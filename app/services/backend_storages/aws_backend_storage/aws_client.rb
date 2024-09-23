@@ -8,10 +8,10 @@ class AwsClient
 
   def initialize(http_method:, path:, request_parameters: nil, body: nil, date: Time.now.utc)
     #This AwsClient Is only accepting two http_methods GET, PUT
-    @access_key = ENV['AWS_ACCESS_KEY_ID']
+    @access_key = ENV['AWS_ACCESS_KEY']
     @secret_key = ENV['AWS_SECRET_ACCESS_KEY']
     @region = ENV['AWS_REGION']
-    @service = ENV['AWS_SERVICE']
+    @service = "execute-api"
     @http_method = http_method
     uri = URI.parse(ENV['AWS_SERVICE_API_URL'] + '/' + path)
     @host = uri.host
