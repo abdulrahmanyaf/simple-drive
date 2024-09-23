@@ -7,6 +7,6 @@ class ChecksumValidator
   end
 
   def valid?
-    Digest::SHA256.hexdigest(@data) == @checksum
+    Digest::SHA256.hexdigest(@data) === @checksum
   end
 end
