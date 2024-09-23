@@ -1,0 +1,2 @@
+class DataBlob < ApplicationRecord
+end

@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  blob_id: test1
+  content_type: null
+  size: 27
+  checksum: 7fc79eaaf401347c1d951de2e124d415bdac232d5645b5a8e783e3791bae419a
+  backend_storage: database
