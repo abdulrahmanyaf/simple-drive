@@ -20,7 +20,6 @@ class BlobManager
     end
 
     backend_storage_obj = backend_storage_object(uploaded_blob.backend_storage)
-    #TODO: if the blob id is unique for all user just pass the blob_id to the backend_storage_obj.retrieve_blob method
     blob_data = backend_storage_obj.retrieve_blob(uploaded_blob.blob_id)
 
     # Check if blob was manipulated
@@ -40,7 +39,6 @@ class BlobManager
       raise DuplicateRecordError, "A blob with the same ID already exists: #{blob_id}"
     end
 
-    # TODO: check if the blob_id is unique in general or per user and fix the filename saving in the local and aws if it is per user
     base64_decoder = Base64Decoder.new(blob_data)
     backend_storage_obj = backend_storage_object
 
@@ -54,7 +52,12 @@ class BlobManager
   private
 
   def self.add_uploaded_blob_record(blob_id, content_type, size, checksum, user)
-    user.uploaded_blobs.create(blob_id: blob_id, content_type: content_type, size: size, checksum: checksum, backend_storage: ENV["ACTIVE_STORAGE_BACKEND"])
+    begin
+      user.uploaded_blobs.create(blob_id: blob_id, content_type: content_type, size: size, checksum: checksum, backend_storage: ENV["ACTIVE_STORAGE_BACKEND"])
+    rescue StandardError => e
+      Rails.logger.error("Error while creating the blob:#{blob_id}. E: #{e.message}")
+      raise BlobUploadError
+    end
   end
 
   def self.backend_storage_object(backend_storage = nil)

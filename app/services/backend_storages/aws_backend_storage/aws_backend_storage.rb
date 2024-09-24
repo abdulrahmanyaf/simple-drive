@@ -9,14 +9,14 @@ class AwsBackendStorage
 
   def upload_blob(blob_id, blob_data)
     res = AwsClient.new(http_method: 'PUT',path: blob_id, body:blob_data).make_request
-    unless res.code == '200'
+    unless res and res.code == '200'
       raise BlobUploadError
     end
   end
 
   def retrieve_blob(blob_id)
     res = AwsClient.new(http_method: 'GET',path: blob_id).make_request
-    unless res.code == '200'
+    unless res and res.code == '200'
       raise BlobRetrieveError
     end
     res.body

@@ -9,6 +9,7 @@ class DatabaseBackendStorage
     begin
       DataBlob.create(blob_id: blob_id, data: blob_data)
     rescue StandardError => e
+      Rails.logger.error("Error while creating the blob:#{blob_id}. E: #{e.message}")
       raise BlobUploadError
     end
   end
@@ -16,6 +17,7 @@ class DatabaseBackendStorage
   def retrieve_blob(blob_id)
     data_blob = DataBlob.find_by(blob_id: blob_id)
     if data_blob.nil?
+      Rails.logger.warn("Blob #{blob_id} is messing from the database storage.")
       raise BlobRetrieveError
     end
     data_blob.data

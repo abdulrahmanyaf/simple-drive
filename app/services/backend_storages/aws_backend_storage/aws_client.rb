@@ -7,7 +7,7 @@ require 'cgi'
 class AwsClient
 
   def initialize(http_method:, path:, request_parameters: nil, body: nil, date: Time.now.utc)
-    #This AwsClient Is only accepting two http_methods GET, PUT
+    # This AwsClient Is only accepting two http_methods GET, PUT
     @access_key = ENV['AWS_ACCESS_KEY']
     @secret_key = ENV['AWS_SECRET_ACCESS_KEY']
     @region = ENV['AWS_REGION']
@@ -23,9 +23,14 @@ class AwsClient
   end
 
   def make_request
-    https = Net::HTTP.new(@host, @port)
-    https.use_ssl = true
-    https.request(request)
+    begin
+      https = Net::HTTP.new("#{@host}", @port)
+      https.use_ssl = true
+      https.request(request)
+    rescue StandardError => e
+      Rails.logger.error("An error happened while calling the aws endpoint #{@http_method}: #{@host}/#{@canonical_uri}. E: #{e.message}")
+      false
+    end
   end
 
   private
@@ -38,6 +43,7 @@ class AwsClient
       request = Net::HTTP::Put.new("#{@canonical_uri}")
       request.body = @body
     else
+      Rails.logger.error("Not Supported Method: #{@http_method}")
       raise "Not Supported Method: #{@http_method}"
     end
     request_fields.each do |key, value|
