@@ -4,7 +4,7 @@ module  BackendStorage
     raise NotImplementedError, "The method #{__method__} is not implemented for #{self.class}"
   end
 
-  def retrieve_blob(uploaded_blob)
+  def retrieve_blob(blob_id)
     raise NotImplementedError, "The method #{__method__} is not implemented for #{self.class}"
   end
 

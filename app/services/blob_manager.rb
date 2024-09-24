@@ -2,6 +2,7 @@ require "base64"
 require_relative "backend_storages/local_backend_storage"
 require_relative "backend_storages/aws_backend_storage/aws_backend_storage"
 require_relative "backend_storages/database_backend_storage"
+require_relative "backend_storages/ftb_backend_storage/ftp_backend_storage"
 require_relative "utils/base64_decoder"
 require_relative "utils/base64_encoder"
 require_relative "utils/checksum_validator"
@@ -20,7 +21,7 @@ class BlobManager
 
     backend_storage_obj = backend_storage_object(uploaded_blob.backend_storage)
     #TODO: if the blob id is unique for all user just pass the blob_id to the backend_storage_obj.retrieve_blob method
-    blob_data = backend_storage_obj.retrieve_blob(uploaded_blob)
+    blob_data = backend_storage_obj.retrieve_blob(uploaded_blob.blob_id)
 
     # Check if blob was manipulated
     unless ChecksumValidator.new(blob_data, uploaded_blob.checksum).valid?
@@ -65,6 +66,8 @@ class BlobManager
       return AwsBackendStorage.new
     when "database"
       return DatabaseBackendStorage.new
+    when 'ftp'
+      return FtpBackendStorage.new
     else
       raise "No backend storage found"
     end

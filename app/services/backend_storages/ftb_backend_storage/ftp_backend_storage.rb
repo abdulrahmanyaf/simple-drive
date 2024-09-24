@@ -1,25 +1,25 @@
 require_relative '../backend_storage'
-require_relative 'aws_client'
+require_relative 'ftp_client'
 require_relative '../../../errors/blob_upload_error'
 require_relative '../../../errors/blob_retrieve_error'
 
 
-class AwsBackendStorage
+class FtpBackendStorage
   include BackendStorage
 
   def upload_blob(blob_id, blob_data)
-    res = AwsClient.new(http_method: 'PUT',path: blob_id, body:blob_data).make_request
-    unless res.code == '200'
+    is_uploaded = FTPClient.upload_binary_data(blob_id, blob_data)
+    unless is_uploaded
       raise BlobUploadError
     end
   end
 
   def retrieve_blob(blob_id)
-    res = AwsClient.new(http_method: 'GET',path: blob_id).make_request
-    unless res.code == '200'
+    data = FTPClient.retrieve_binary_data(blob_id)
+    unless data
       raise BlobRetrieveError
     end
-    res.body
+    data
   end
 end
 

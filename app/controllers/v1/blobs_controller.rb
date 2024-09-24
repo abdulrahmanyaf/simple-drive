@@ -10,13 +10,12 @@ class V1::BlobsController < ApplicationController
       render json: { error: "#{missing_params.join(', ')} field are required" }, status: :bad_request
       return
     end
-
     begin
       BlobManager.upload_blob(blob_params["id"], blob_params["data"], current_user)
       render json: { success: true }, status: :created
     rescue Exception => e
       if e.is_a?(BaseCustomError)
-        render json: { error: e.message }, status: :e.status
+        render json: { error: e.message }, status: e.status
       else
         render json: { error: "Something went wrong" }, status: :internal_server_error
       end
@@ -29,10 +28,9 @@ class V1::BlobsController < ApplicationController
     begin
       blob_data = BlobManager.retrieve_blob(params[:id], current_user)
       render json: blob_data
-
     rescue Exception => e
       if e.is_a?(BaseCustomError)
-        render json: { error: e.message }, status: :e.status
+        render json: { error: e.message }, status: e.status
       else
         render json: { error: "Something went wrong" }, status: :internal_server_error
       end

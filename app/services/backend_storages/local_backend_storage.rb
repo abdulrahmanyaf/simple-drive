@@ -8,7 +8,7 @@ class LocalBackendStorage
 
   def upload_blob(blob_id, blob_data)
     begin
-      file_path = File.join(ENV['LOCAL_STORAGE_PATH'], blob_id)
+      file_path = File.join(ENV['LOCAL_STORAGE_DIR'], blob_id)
       File.open(file_path, 'wb') do |file|
         file.write(blob_data)
       end
@@ -17,9 +17,8 @@ class LocalBackendStorage
     end
   end
 
-  def retrieve_blob(uploaded_blob)
-    file_name = uploaded_blob.blob_id
-    file_path = File.join(ENV['LOCAL_STORAGE_PATH'], file_name)
+  def retrieve_blob(blob_id)
+    file_path = File.join(ENV['LOCAL_STORAGE_DIR'], blob_id)
     begin
       File.read(file_path)
     rescue => e

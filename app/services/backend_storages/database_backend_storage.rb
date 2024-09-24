@@ -13,8 +13,8 @@ class DatabaseBackendStorage
     end
   end
 
-  def retrieve_blob(uploaded_blob)
-    data_blob = DataBlob.find_by(blob_id: uploaded_blob.blob_id)
+  def retrieve_blob(blob_id)
+    data_blob = DataBlob.find_by(blob_id: blob_id)
     if data_blob.nil?
       raise BlobRetrieveError
     end

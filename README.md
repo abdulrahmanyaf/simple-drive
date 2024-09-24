@@ -5,6 +5,7 @@
 1. **Amazon S3 Compatible Storage Service**
 2. **Database**
 3. **Local File System**
+4. **FTP**
 
 The system's architecture is designed to be extensible, making it easy to integrate additional storage backends as needed.
 
@@ -17,7 +18,12 @@ Several environment variables must be configured based on the storage backend yo
 - **`AWS_SECRET_ACCESS_KEY`**: Your AWS secret access key for S3 storage.
 - **`AWS_REGION`**: The AWS region where your S3 storage is hosted.
 - **`AWS_SERVICE_API_URL`**: The API URL for the S3-compatible storage service.
-- **`LOCAL_STORAGE_PATH`**: The file path for local storage.
+- **`LOCAL_STORAGE_DIR`**: The directory path for local storage.
+- **`FTP_HOST`**: The FTP server host.
+- **`FTP_PORT`**: The FTP server port.
+- **`FTP_USER`**: The FTP server user.
+- **`FTP_PASSWORD`**: The FTP server password.
+- **`FTP_STORAGE_DIR`**: The directory path for remote FTP server storage.
 
 Additionally, ensure that the **`devise_jwt_secret_key`** is set in your credentials to enable proper authentication.
 
