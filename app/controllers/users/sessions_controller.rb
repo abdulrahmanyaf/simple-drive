@@ -11,7 +11,7 @@ class Users::SessionsController < Devise::SessionsController
     render json: {
       status: {
         code: 200, message: 'Logged in successfully.',
-        data: { user: {id: current_user.id, email: current_user.email} },
+        data: UserSerializer.new(current_user).serializable_hash
       }
     }, status: :ok
   end
