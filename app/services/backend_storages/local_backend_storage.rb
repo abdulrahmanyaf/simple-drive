@@ -12,7 +12,7 @@ class LocalBackendStorage
       File.open(file_path, 'wb') do |file|
         file.write(blob_data)
       end
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error("Local file write failed for blob:#{blob_id}. E: #{e.message}")
       raise BlobUploadError
     end
@@ -22,7 +22,7 @@ class LocalBackendStorage
     file_path = File.join(ENV['LOCAL_STORAGE_DIR'], blob_id)
     begin
       File.read(file_path)
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error("Local file read failed for blob:#{blob_id}. E: #{e.message}")
       raise BlobRetrieveError
     end

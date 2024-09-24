@@ -13,7 +13,7 @@ The system's architecture is designed to be extensible, making it easy to integr
 
 Several environment variables must be configured based on the storage backend you're using to ensure the system operates correctly:
 
-- **`ACTIVE_STORAGE_BACKEND`**: Specifies the storage backend. Acceptable values: `aws`, `local`, `database`.
+- **`ACTIVE_STORAGE_BACKEND`**: Specifies the storage backend. Acceptable values: `aws`, `local`, `database`, `ftp`.
 - **`AWS_ACCESS_KEY_ID`**: Your AWS access key for S3 storage.
 - **`AWS_SECRET_ACCESS_KEY`**: Your AWS secret access key for S3 storage.
 - **`AWS_REGION`**: The AWS region where your S3 storage is hosted.

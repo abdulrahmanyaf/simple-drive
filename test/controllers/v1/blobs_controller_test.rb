@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require "rails/test_help"
+require 'climate_control'
 require Rails.root.join('app', 'services', 'utils', 'date_utils').to_s
 require Rails.root.join('app', 'services', 'utils', 'base64_encoder').to_s
 
@@ -21,16 +22,18 @@ class BlobsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should post the blob details to database storage" do
-    assert_difference('DataBlob.count', +1) do
-      post v1_blobs_create_url,
-           headers: {
-             'Authorization' => "Bearer #{@jwt_token}"
-           },
-           params: {
-             id: "blob_test_2",
-             data: "VGhpcyBpcyBhIHRlc3QgYmxvYiBmb3IgaW50ZWdyYXRpb24gdGVzdGluZw=="
-           }
+    ClimateControl.modify ACTIVE_STORAGE_BACKEND: 'database' do
+      assert_difference('DataBlob.count', +1) do
+        post v1_blobs_create_url,
+             headers: {
+               'Authorization' => "Bearer #{@jwt_token}"
+             },
+             params: {
+               id: "blob_test_2",
+               data: "VGhpcyBpcyBhIHRlc3QgYmxvYiBmb3IgaW50ZWdyYXRpb24gdGVzdGluZw=="
+             }
+      end
+      assert_response :created
     end
-    assert_response :created
   end
 end
