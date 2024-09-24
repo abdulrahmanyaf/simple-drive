@@ -77,7 +77,7 @@ To get started with Simple Drive, follow the steps below:
    ```json
    {
      "user": {
-       "email": "ali@gmail.com",
+       "email": "test@gmail.com",
        "password": "123456"
      }
    }
